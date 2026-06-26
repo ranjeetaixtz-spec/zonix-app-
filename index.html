@@ -422,3 +422,26 @@
     </script>
 </body>
 </html>
+<style>
+function showPage(pageId) {
+    // 1. Sabse pehle sabhi sections se 'active' class hatao
+    document.querySelectorAll('.page-section').forEach(div => {
+        div.classList.remove('active');
+    });
+    
+    // 2. Sirf selected wale mein 'active' class dalo
+    document.getElementById(pageId).classList.add('active');
+}
+
+    /* ... baki styles ... */
+    .page-section { display: none; }
+    .page-section.active { display: block !important; }
+</style>
+<main class="max-w-6xl mx-auto px-4">
+    <!-- Sirf ek div mein "active" hona chahiye -->
+    <div id="tenantView" class="page-section active"> ... </div>
+    <div id="pipelineView" class="page-section"> ... </div>
+    <div id="profileView" class="page-section"> ... </div>
+    <div id="ownerView" class="page-section"> ... </div>
+</main>
+

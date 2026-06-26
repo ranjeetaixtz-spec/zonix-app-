@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zonix - Booking & Lead Management System</title>
+    <title>Zonix Premium - End-to-End Student Ecosystem</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,12 +17,11 @@
 </head>
 <body class="min-h-screen pb-12">
 
-    <!-- ================= ROLE SELECTION OVERLAY ================= -->
     <div id="roleModal" class="fixed inset-0 z-50 flex items-center justify-center bg-[#070a12] px-4">
         <div class="max-w-md w-full text-center space-y-8">
             <div>
                 <h1 class="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent">ZONIX</h1>
-                <p class="text-gray-400 mt-2 text-sm">Find your perfect study bubble or manage incoming tenant requests.</p>
+                <p class="text-gray-400 mt-2 text-sm">Next-Gen Housing with Multi-Angle Previews & Visit Pipeline</p>
             </div>
             
             <div class="space-y-4">
@@ -32,7 +31,7 @@
                     </div>
                     <div>
                         <h3 class="font-bold text-lg text-white">I want to Rent a Room</h3>
-                        <p class="text-xs text-gray-400 mt-0.5">Search PGs, track your real-time booking status.</p>
+                        <p class="text-xs text-gray-400 mt-0.5">Inspect rooms, bathrooms & track approval status.</p>
                     </div>
                 </button>
 
@@ -42,14 +41,13 @@
                     </div>
                     <div>
                         <h3 class="font-bold text-lg text-white">I want to List Property</h3>
-                        <p class="text-xs text-gray-400 mt-0.5">Manage edits & Accept/Reject incoming requests.</p>
+                        <p class="text-xs text-gray-400 mt-0.5">Upload gallery, edit prices & process bookings.</p>
                     </div>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ================= MAIN NAVIGATION ================= -->
     <nav class="sticky top-0 z-40 glass border-b border-gray-800/60 px-4 py-3 mb-6">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-2 cursor-pointer" onclick="resetApp()">
@@ -65,12 +63,11 @@
 
     <main class="max-w-6xl mx-auto px-4">
         
-        <!-- ================= TENANT VIEW ================= -->
         <div id="tenantView" class="hidden space-y-8">
             <div class="space-y-3">
                 <div class="relative">
                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-500"></i>
-                    <input type="text" id="searchBox" oninput="filterRooms()" placeholder="Search by area, landmark or facility..." class="w-full glass pl-11 pr-4 py-3 rounded-xl focus:outline-none focus:border-blue-500 transition text-sm text-gray-200">
+                    <input type="text" id="searchBox" oninput="filterRooms()" placeholder="Search landmarks, coaching centres, or PGs..." class="w-full glass pl-11 pr-4 py-3 rounded-xl focus:outline-none focus:border-blue-500 transition text-sm text-gray-200">
                 </div>
                 <div class="flex items-center space-x-2 overflow-x-auto hide-scrollbar py-1 text-xs">
                     <button onclick="filterType('all')" class="chip-btn px-4 py-2 rounded-full glass border-blue-500/30 text-blue-400 font-medium whitespace-nowrap" id="chip-all">All Hubs</button>
@@ -79,41 +76,44 @@
                 </div>
             </div>
 
-            <!-- Property Display Grid -->
             <div id="propertyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
-            <!-- Live Status Tracker For Student -->
             <div class="pt-4 border-t border-gray-800/60">
                 <h3 class="text-sm font-bold text-gray-400 mb-3 flex items-center space-x-2">
                     <i class="fa-solid fa-satellite-dish text-blue-400 animate-pulse"></i>
-                    <span>Your Live Booking Status Panel</span>
+                    <span>Real-time Application Tracker Status</span>
                 </h3>
-                <div id="studentStatusTrack" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                    <!-- Status injection -->
-                </div>
+                <div id="studentStatusTrack" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs"></div>
             </div>
         </div>
 
-        <!-- ================= OWNER VIEW ================= -->
         <div id="ownerView" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Property Form Column -->
             <div class="lg:col-span-1 space-y-4">
                 <div class="glass p-5 rounded-2xl border-emerald-500/10 space-y-4">
                     <h2 id="formHeaderTitle" class="text-lg font-bold text-white flex items-center space-x-2">
                         <i class="fa-solid fa-circle-plus text-emerald-400"></i>
-                        <span>List New Space</span>
+                        <span>Studio Listing Manager</span>
                     </h2>
                     <form id="listingForm" onsubmit="handleFormSubmit(event)" class="space-y-3 text-xs">
                         <input type="hidden" id="formEditId" value="">
                         <div>
-                            <label class="block text-gray-400 mb-1">Property Name</label>
-                            <input type="text" id="formTitle" required class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-200 focus:outline-none">
+                            <label class="block text-gray-400 mb-1">Property Title</label>
+                            <input type="text" id="formTitle" required placeholder="e.g., Shiv Hostel & PG" class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-200 focus:outline-none">
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-gray-400 mb-1">Rent (₹)</label>
+                                <label class="block text-gray-400 mb-1">Monthly Rent (₹)</label>
                                 <input type="number" id="formRent" required class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-200 focus:outline-none">
                             </div>
+                            <div>
+                                <label class="block text-gray-400 mb-1">Deposit (Security)</label>
+                                <select id="formDeposit" class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-300 focus:outline-none">
+                                    <option value="0">Zero Deposit</option>
+                                    <option value="1 Month">1 Month Rent</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="block text-gray-400 mb-1">Type</label>
                                 <select id="formType" class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-300 focus:outline-none">
@@ -121,45 +121,62 @@
                                     <option value="Library">Library Attached</option>
                                 </select>
                             </div>
+                            <div>
+                                <label class="block text-gray-400 mb-1">Nearest Landmark/Hub</label>
+                                <input type="text" id="formLandmark" required placeholder="e.g., Near Allen / 200m" class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-200 focus:outline-none">
+                            </div>
+                        </div>
+                        
+                        <div class="p-3 bg-gray-900/40 rounded-xl border border-gray-800 space-y-2">
+                            <span class="block text-[11px] font-bold text-blue-400 uppercase tracking-wider mb-1"><i class="fa-solid fa-images mr-1"></i>Multi-Angle Room Gallery Links</span>
+                            <div>
+                                <label class="text-[10px] text-gray-400">1. Main Bed/Study Room URL</label>
+                                <input type="url" id="formImgRoom" required placeholder="Paste room layout image URL" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 mt-0.5 text-gray-300 text-[11px]">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-400">2. Bathroom Cleanliness Photo URL</label>
+                                <input type="url" id="formImgBath" required placeholder="Paste bathroom image URL" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 mt-0.5 text-gray-300 text-[11px]">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-400">3. Kitchen / Dining Area URL</label>
+                                <input type="url" id="formImgKitchen" required placeholder="Paste kitchen image URL" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 mt-0.5 text-gray-300 text-[11px]">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-gray-400 mb-1">Visiting Hours</label>
+                                <select id="formTimeSlot" class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-300 focus:outline-none">
+                                    <option value="04:00 PM - 08:00 PM">04:00 PM - 08:00 PM</option>
+                                    <option value="10:00 AM - 01:00 PM">10:00 AM - 01:00 PM</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-400 mb-1">WhatsApp Mobile</label>
+                                <input type="tel" id="formPhone" required placeholder="10 digits" class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-200 focus:outline-none">
+                            </div>
                         </div>
                         <div>
-                            <label class="block text-gray-400 mb-1">Visiting Window Slots</label>
-                            <select id="formTimeSlot" class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-300 focus:outline-none">
-                                <option value="10:00 AM - 01:00 PM">Morning (10:00 AM - 01:00 PM)</option>
-                                <option value="04:00 PM - 08:00 PM">Evening (04:00 PM - 08:00 PM)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Google Maps URL</label>
+                            <label class="block text-gray-400 mb-1">Maps Location Link</label>
                             <input type="url" id="formMap" required class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-200 focus:outline-none">
                         </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Contact WhatsApp</label>
-                            <input type="tel" id="formPhone" required class="w-full bg-gray-900/50 border border-gray-800 rounded-xl p-3 text-gray-200 focus:outline-none">
-                        </div>
-                        <button type="submit" id="formSubmitBtn" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition">Publish Live</button>
+                        <button type="submit" id="formSubmitBtn" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition">Publish Enterprise Node</button>
                     </form>
                 </div>
             </div>
 
-            <!-- Dashboard Pipeline Control Grid -->
             <div class="lg:col-span-2 space-y-6">
-                <!-- INCOMING REQUEST WORKSPACE (The Core Feature) -->
                 <div>
                     <h2 class="text-base font-bold text-white flex items-center space-x-2 mb-3">
                         <i class="fa-solid fa-bell-concierge text-amber-400"></i>
-                        <span>📥 Incoming Visit Requests (Live Operations)</span>
+                        <span>📥 Incoming Multi-Angle Visit Requests</span>
                     </h2>
-                    <div id="incomingRequestGrid" class="space-y-2">
-                        <!-- Request nodes map here -->
-                    </div>
+                    <div id="incomingRequestGrid" class="space-y-2"></div>
                 </div>
-
-                <!-- Active Custom Listings Layout -->
                 <div>
                     <h2 class="text-base font-bold text-white flex items-center space-x-2 mb-3">
                         <i class="fa-solid fa-folder-open text-blue-400"></i>
-                        <span>Your Active Dashboard Listings</span>
+                        <span>Your Active Sandbox Units</span>
                     </h2>
                     <div id="ownerGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 </div>
@@ -167,7 +184,6 @@
         </div>
     </nav>
 
-    <!-- ================= DYNAMIC BOOKING SYSTEM OVERLAY MODAL ================= -->
     <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm hidden">
         <div class="glass w-full max-w-md rounded-2xl p-6 border border-gray-800 space-y-4">
             <div class="flex justify-between items-center">
@@ -185,7 +201,7 @@
                     <input type="tel" id="tenantPhone" required class="w-full bg-gray-900 border border-gray-800 rounded-xl p-3 text-gray-200 outline-none">
                 </div>
                 <div>
-                    <label class="block text-gray-400 mb-1">Visiting Time Interval</label>
+                    <label class="block text-gray-400 mb-1">Visiting Time Window</label>
                     <select id="tenantTimeSelection" required class="w-full bg-gray-900 border border-gray-800 rounded-xl p-3 text-gray-300 outline-none"></select>
                 </div>
                 <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-xl transition">Submit Verification Request</button>
@@ -193,16 +209,29 @@
         </div>
     </div>
 
-    <!-- ================= SYSTEM CORE LOGIC ARCHITECTURE ================= -->
     <script>
+        // Pre-seeded database with real student room, premium bathroom, and minimalist kitchen URLs
         let roomsData = [
-            { id: 1, title: "Premium Self-Study Single PG (Kota)", rent: 5500, type: "Single", timeSlot: "04:00 PM - 08:00 PM", images: ["https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSPaMb3Rw_vmkd4JrvxvgVqsL0HaYVn40RgkIPe5W_YS_V9xP6lZmK82IplgUB3LAwFYoXnFVqcfAwHnao"], mapUrl: "https://maps.google.com", phone: "9876543210" },
-            { id: 2, title: "Shanti Niwas Boys Hostel (Indore)", rent: 4200, type: "Library", timeSlot: "10:00 AM - 01:00 PM", images: ["https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTluYfpYgHX13iybOigJ9pNJAZr6n5JbrlGks3d5Oa0R_ymzqf-RigfgLi46YFY2_IYSlGNldtj0xIGBKE"], mapUrl: "https://maps.google.com", phone: "9112233445" }
+            { 
+                id: 1, 
+                title: "Durga Premium Triple-Angle PG", 
+                rent: 5500, 
+                deposit: "0 Deposit",
+                type: "Single", 
+                landmark: "200m from Allen Hub",
+                timeSlot: "04:00 PM - 08:00 PM", 
+                images: {
+                    room: "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSPaMb3Rw_vmkd4JrvxvgVqsL0HaYVn40RgkIPe5W_YS_V9xP6lZmK82IplgUB3LAwFYoXnFVqcfAwHnao",
+                    bath: "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRF87M_6aD71P2ubFwSI3WaeS3O3cP_bZJnBcqTzS0Cd_Qw1F2OQUAXwmx73BZ_p_cyF0B88emH5pNifdA",
+                    kitchen: "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTluYfpYgHX13iybOigJ9pNJAZr6n5JbrlGks3d5Oa0R_ymzqf-RigfgLi46YFY2_IYSlGNldtj0xIGBKE"
+                },
+                mapUrl: "https://maps.google.com", 
+                phone: "9876543210" 
+            }
         ];
 
-        // Central Request Tracking Matrix
         let bookingRequests = [
-            { id: 101, roomId: 1, roomTitle: "Premium Self-Study Single PG (Kota)", tenantName: "Aman Sharma", tenantPhone: "9988776655", slot: "04:00 PM - 08:00 PM", status: "pending" }
+            { id: 101, roomId: 1, roomTitle: "Durga Premium Triple-Angle PG", tenantName: "Aman Sharma", tenantPhone: "9988776655", slot: "04:00 PM - 08:00 PM", status: "pending" }
         ];
 
         let currentRole = null;
@@ -216,7 +245,7 @@
             
             if(role === 'tenant') {
                 badge.innerText = "Student Mode";
-                badge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20";
+                badge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20";
                 switchBtnText.innerText = "Switch to Owner Portal";
                 document.getElementById('tenantView').classList.remove('hidden');
                 document.getElementById('ownerView').classList.add('hidden');
@@ -224,7 +253,7 @@
                 renderStudentTracker();
             } else {
                 badge.innerText = "Owner Portal";
-                badge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+                badge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
                 switchBtnText.innerText = "Switch to Student View";
                 document.getElementById('tenantView').classList.add('hidden');
                 document.getElementById('ownerView').classList.remove('hidden');
@@ -236,20 +265,62 @@
         function toggleRole() { setRole(currentRole === 'tenant' ? 'owner' : 'tenant'); }
         function resetApp() { document.getElementById('roleModal').classList.remove('hidden'); }
 
+        // Switch Photo view engine on Tenant Cards
+        function switchCardPhoto(roomId, category) {
+            const room = roomsData.find(r => r.id === roomId);
+            if(!room) return;
+            document.getElementById(`display-img-${roomId}`).src = room.images[category];
+            
+            // Highlight active view tag button
+            document.querySelectorAll(`.btn-group-${roomId} button`).forEach(btn => {
+                btn.classList.remove('bg-blue-500', 'text-white');
+                btn.classList.add('bg-black/60', 'text-gray-400');
+            });
+            event.target.classList.replace('bg-black/60', 'bg-blue-500');
+            event.target.classList.replace('text-gray-400', 'text-white');
+        }
+
         function renderTenantGrid(filteredList = roomsData) {
             const container = document.getElementById('propertyGrid');
             container.innerHTML = '';
             filteredList.forEach(room => {
                 container.innerHTML += `
-                    <div class="glass rounded-2xl overflow-hidden group border-gray-800/80">
-                        <img src="${room.images[0]}" class="h-44 w-full object-cover">
-                        <div class="p-4 space-y-3">
-                            <div>
-                                <h3 class="font-bold text-sm text-gray-100 line-clamp-1">${room.title}</h3>
-                                <p class="text-lg font-black text-blue-400">₹${room.rent}/mo</p>
-                                <p class="text-[11px] text-gray-400"><i class="fa-solid fa-clock text-blue-400 mr-1"></i>Hours: ${room.timeSlot}</p>
+                    <div class="glass rounded-2xl overflow-hidden border-gray-800/80 group">
+                        <div class="relative h-48 w-full bg-gray-900">
+                            <img id="display-img-${room.id}" src="${room.images.room}" class="w-full h-full object-cover transition duration-300">
+                            
+                            <div class="absolute bottom-3 left-3 flex space-x-1 btn-group-${room.id} text-[10px] font-bold">
+                                <button onclick="switchCardPhoto(${room.id}, 'room')" class="px-2.5 py-1 rounded bg-blue-500 text-white backdrop-blur shadow">🛏️ Room</button>
+                                <button onclick="switchCardPhoto(${room.id}, 'bath')" class="px-2.5 py-1 rounded bg-black/60 text-gray-400 backdrop-blur"> Uran / Bath</button>
+                                <button onclick="switchCardPhoto(${room.id}, 'kitchen')" class="px-2.5 py-1 rounded bg-black/60 text-gray-400 backdrop-blur">🍳 Kitchen</button>
                             </div>
-                            <button onclick="openBookingModal(${room.id})" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl transition text-xs">Book Free Visit</button>
+
+                            <span class="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded bg-black/80 text-blue-400 border border-white/5 uppercase">
+                                ${room.type}
+                            </span>
+                        </div>
+
+                        <div class="p-4 space-y-3 text-xs">
+                            <div>
+                                <div class="flex items-center space-x-1.5 text-gray-400 text-[11px]">
+                                    <i class="fa-solid fa-map-pin text-red-400"></i>
+                                    <span>${room.landmark}</span>
+                                </div>
+                                <h3 class="font-bold text-sm text-gray-100 mt-1 line-clamp-1">${room.title}</h3>
+                                <div class="flex items-center space-x-3 mt-1.5">
+                                    <span class="text-base font-black text-blue-400">₹${room.rent}/mo</span>
+                                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-400 font-medium border border-gray-700">${room.deposit}</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between border-t border-b border-gray-800/60 py-2 text-[11px]">
+                                <a href="${room.mapUrl}" target="_blank" class="text-gray-400 hover:text-blue-400 flex items-center space-x-1"><i class="fa-solid fa-location-crosshairs text-blue-400"></i> <span>Navigation Route</span></a>
+                                <span class="text-gray-500"><i class="fa-solid fa-clock mr-1"></i>${room.timeSlot}</span>
+                            </div>
+
+                            <button onclick="openBookingModal(${room.id})" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl transition">
+                                Request Visit Slot Appointment
+                            </button>
                         </div>
                     </div>`;
             });
@@ -259,14 +330,12 @@
             const room = roomsData.find(r => r.id === roomId);
             if(!room) return;
             document.getElementById('modalRoomId').value = roomId;
-            const selectEl = document.getElementById('tenantTimeSelection');
-            selectEl.innerHTML = `<option value="${room.timeSlot}">${room.timeSlot}</option>`;
+            document.getElementById('tenantTimeSelection').innerHTML = `<option value="${room.timeSlot}">${room.timeSlot}</option>`;
             document.getElementById('bookingModal').classList.remove('hidden');
         }
 
         function closeBookingModal() { document.getElementById('bookingModal').classList.add('hidden'); }
 
-        // Execute Student Internal Application Node Submission
         function executeBookingRequest(e) {
             e.preventDefault();
             const roomId = document.getElementById('modalRoomId').value;
@@ -275,66 +344,53 @@
             const chosenTime = document.getElementById('tenantTimeSelection').value;
             const room = roomsData.find(r => r.id == roomId);
 
-            const newReq = { id: Date.now(), roomId: parseInt(roomId), roomTitle: room.title, tenantName: name, tenantPhone: phone, slot: chosenTime, status: "pending" };
-            bookingRequests.unshift(newReq);
-            
+            bookingRequests.unshift({ id: Date.now(), roomId: parseInt(roomId), roomTitle: room.title, tenantName: name, tenantPhone: phone, slot: chosenTime, status: "pending" });
             closeBookingModal();
             renderStudentTracker();
-            alert("🚀 Booking request routed onto Owner Engine board pipeline state successfully!");
+            alert("🚀 Visit Request posted successfully into pipeline matrix!");
         }
 
-        // Student Side UI Status Tracker Layout Render
         function renderStudentTracker() {
             const container = document.getElementById('studentStatusTrack');
             container.innerHTML = '';
             if(bookingRequests.length === 0) {
-                container.innerHTML = `<p class="text-gray-600">No appointments submitted yet.</p>`;
+                container.innerHTML = `<p class="text-gray-600">No active pipelines found.</p>`;
                 return;
             }
             bookingRequests.forEach(req => {
-                let statusBadge = req.status === 'pending' ? '<span class="text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">⏳ Pending Review</span>' : 
-                                  req.status === 'accepted' ? '<span class="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">🟢 Accepted & Confirmed</span>' : 
-                                  '<span class="text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">🔴 Visit Declined</span>';
+                let statusBadge = req.status === 'pending' ? '<span class="text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/10">⏳ In Pipeline</span>' : 
+                                  req.status === 'accepted' ? '<span class="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/10">🟢 Visit Approved</span>' : 
+                                  '<span class="text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/10">🔴 Declined</span>';
                 container.innerHTML += `
-                    <div class="glass p-3 rounded-xl flex flex-col justify-between border-gray-800">
+                    <div class="glass p-3 rounded-xl flex justify-between items-center border-gray-800">
                         <div>
-                            <p class="font-bold text-gray-200 line-clamp-1">${req.roomTitle}</p>
-                            <p class="text-[11px] text-gray-400 mt-0.5">Scheduled Slot: ${req.slot}</p>
+                            <p class="font-bold text-gray-200">${req.roomTitle}</p>
+                            <p class="text-[10px] text-gray-500">Slot Windows: ${req.slot}</p>
                         </div>
-                        <div class="mt-2 flex justify-between items-center">${statusBadge}</div>
+                        <div>${statusBadge}</div>
                     </div>`;
             });
         }
 
-        // Owner Portal Management Requests Pipeline Matrix Renderer
         function renderOwnerRequests() {
             const container = document.getElementById('incomingRequestGrid');
             container.innerHTML = '';
-            
-            const pendingItems = bookingRequests;
-            if(pendingItems.length === 0) {
-                container.innerHTML = `<div class="p-4 glass rounded-xl text-center text-gray-500 text-xs">No active request logs registered inside buffer.</div>`;
+            if(bookingRequests.length === 0) {
+                container.innerHTML = `<div class="p-4 glass rounded-xl text-center text-gray-500">No pending logs inside active matrix.</div>`;
                 return;
             }
-
-            pendingItems.forEach(req => {
+            bookingRequests.forEach(req => {
                 container.innerHTML += `
-                    <div class="glass p-4 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-3 border-gray-800/80 text-xs">
+                    <div class="glass p-3.5 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-2 border-gray-800 text-xs">
                         <div>
-                            <p class="text-gray-400">Target Property: <span class="text-white font-semibold">${req.roomTitle}</span></p>
-                            <div class="flex items-center space-x-4 mt-1 text-gray-300">
-                                <span><i class="fa-solid fa-user text-blue-400/80 mr-1"></i>${req.tenantName}</span>
-                                <span><i class="fa-solid fa-phone text-emerald-400/80 mr-1"></i>${req.tenantPhone}</span>
-                                <span><i class="fa-solid fa-calendar text-purple-400/80 mr-1"></i>${req.slot}</span>
-                            </div>
+                            <p class="text-gray-400">Unit: <span class="text-white font-medium">${req.roomTitle}</span></p>
+                            <p class="text-gray-300 font-bold mt-1">👤 ${req.tenantName} | 📞 ${req.tenantPhone} | ⏰ ${req.slot}</p>
                         </div>
-                        <div class="flex items-center space-x-1 self-end md:self-center">
+                        <div class="flex space-x-1">
                             ${req.status === 'pending' ? `
-                                <button onclick="updateRequestStatus(${req.id}, 'accepted')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg transition">Accept</button>
-                                <button onclick="updateRequestStatus(${req.id}, 'rejected')" class="bg-gray-800 hover:bg-red-900 text-red-400 font-bold px-3 py-1.5 rounded-lg transition">Reject</button>
-                            ` : `
-                                <span class="text-xs uppercase tracking-wider font-bold ${req.status==='accepted'?'text-emerald-400':'text-red-400'}">${req.status}</span>
-                            `}
+                                <button onclick="updateRequestStatus(${req.id}, 'accepted')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg">Approve Visit</button>
+                                <button onclick="updateRequestStatus(${req.id}, 'rejected')" class="bg-gray-800 text-red-400 font-bold px-3 py-1.5 rounded-lg">Decline</button>
+                            ` : `<span class="font-bold uppercase ${req.status==='accepted'?'text-emerald-400':'text-red-400'}">${req.status}</span>`}
                         </div>
                     </div>`;
             });
@@ -342,24 +398,19 @@
 
         function updateRequestStatus(reqId, statusValue) {
             const req = bookingRequests.find(r => r.id === reqId);
-            if(!req) return;
-            req.status = statusValue;
-            
-            if(statusValue === 'accepted') {
-                confetti({ particleCount: 40, colors: ['#10b981'] });
-            }
+            if(req) req.status = statusValue;
+            if(statusValue === 'accepted') confetti({ particleCount: 30 });
             renderOwnerRequests();
         }
 
-        // Form & Active Layout Grid Components Mapping
         function renderOwnerGrid() {
             const container = document.getElementById('ownerGrid');
             container.innerHTML = '';
             roomsData.forEach(room => {
                 container.innerHTML += `
-                    <div class="glass p-4 rounded-xl flex items-center justify-between text-xs">
+                    <div class="glass p-3 rounded-xl flex items-center justify-between text-xs">
                         <div class="flex items-center space-x-3">
-                            <img src="${room.images[0]}" class="w-10 h-10 rounded-lg object-cover">
+                            <img src="${room.images.room}" class="w-10 h-10 rounded-lg object-cover">
                             <div>
                                 <h4 class="font-bold text-gray-200 line-clamp-1">${room.title}</h4>
                                 <p class="text-gray-400">Rent: <span class="text-emerald-400">₹${room.rent}</span></p>
@@ -367,7 +418,7 @@
                         </div>
                         <div class="flex items-center space-x-1">
                             <button onclick="populateFormForEdit(${room.id})" class="text-gray-400 hover:text-blue-400 p-1.5"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="deleteRoom(${room.id})" class="text-gray-600 hover:text-red-400 p-1.5"><i class="fa-solid fa-trash-can"></i></button>
+                            <button onclick="deleteRoom(${room.id})" class="text-gray-500 hover:text-red-400 p-1.5"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>`;
             });
@@ -378,20 +429,29 @@
             const editId = document.getElementById('formEditId').value;
             const title = document.getElementById('formTitle').value;
             const rent = parseInt(document.getElementById('formRent').value);
+            const deposit = document.getElementById('formDeposit').value === "0" ? "Zero Deposit" : "1 Month Deposit";
             const type = document.getElementById('formType').value;
+            const landmark = document.getElementById('formLandmark').value;
+            const roomImg = document.getElementById('formImgRoom').value;
+            const bathImg = document.getElementById('formImgBath').value;
+            const kitchenImg = document.getElementById('formImgKitchen').value;
             const timeSlot = document.getElementById('formTimeSlot').value;
             const mapUrl = document.getElementById('formMap').value;
             const phone = document.getElementById('formPhone').value;
 
             if(editId) {
                 const idx = roomsData.findIndex(r => r.id == editId);
-                if(idx !== -1) roomsData[idx] = { ...roomsData[idx], title, rent, type, timeSlot, mapUrl, phone };
-                resetFormState();
+                if(idx !== -1) {
+                    roomsData[idx] = { ...roomsData[idx], title, rent, deposit, type, landmark, images: { room: roomImg, bath: bathImg, kitchen: kitchenImg }, timeSlot, mapUrl, phone };
+                }
+                document.getElementById('formEditId').value = "";
+                document.getElementById('formSubmitBtn').innerText = "Publish Enterprise Node";
             } else {
-                roomsData.unshift({ id: Date.now(), title, rent, type, timeSlot, mapUrl, phone, images: ["https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRF87M_6aD71P2ubFwSI3WaeS3O3cP_bZJnBcqTzS0Cd_Qw1F2OQUAXwmx73BZ_p_cyF0B88emH5pNifdA"] });
-                document.getElementById('listingForm').reset();
+                roomsData.unshift({ id: Date.now(), title, rent, deposit, type, landmark, images: { room: roomImg, bath: bathImg, kitchen: kitchenImg }, timeSlot, mapUrl, phone });
             }
+            document.getElementById('listingForm').reset();
             renderOwnerGrid();
+            alert("🚀 Enterprise Matrix Pipeline Sync Updated!");
         }
 
         function populateFormForEdit(id) {
@@ -400,20 +460,23 @@
             document.getElementById('formEditId').value = room.id;
             document.getElementById('formTitle').value = room.title;
             document.getElementById('formRent').value = room.rent;
-            document.getElementById('formType').value = room.type;
-            document.getElementById('formTimeSlot').value = room.timeSlot;
-            document.getElementById('formMap').value = room.mapUrl;
+            document.getElementById('formLandmark').value = room.landmark;
+            document.getElementById('formImgRoom').value = room.images.room;
+            document.getElementById('formImgBath').value = room.images.bath;
+            document.getElementById('formImgKitchen').value = room.images.kitchen;
             document.getElementById('formPhone').value = room.phone;
-            document.getElementById('formSubmitBtn').innerText = "Apply Changes";
+            document.getElementById('formMap').value = room.mapUrl;
+            document.getElementById('formSubmitBtn').innerText = "Apply Gallery & Price Changes";
         }
 
-        function resetFormState() { document.getElementById('listingForm').reset(); document.getElementById('formEditId').value = ""; }
         function deleteRoom(id) { roomsData = roomsData.filter(r => r.id !== id); renderOwnerGrid(); }
         function filterType(type) { selectedFilter = type; applyCombinedFilters(); }
         function filterRooms() { applyCombinedFilters(); }
         function applyCombinedFilters() {
             let res = roomsData;
+            const q = document.getElementById('searchBox').value.toLowerCase();
             if(selectedFilter !== 'all') res = res.filter(r => r.type === selectedFilter);
+            if(q.trim() !== '') res = res.filter(r => r.title.toLowerCase().includes(q) || r.landmark.toLowerCase().includes(q));
             renderTenantGrid(res);
         }
     </script>

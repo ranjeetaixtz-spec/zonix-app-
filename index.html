@@ -303,3 +303,122 @@
                         <div class="relative h-48 w-full bg-gray-900">
                             <img id="display-img-${room.id}" src="${room.images.room}" class="w-full h-full object-cover transition duration-300">
                    
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zonix Pro - Next-Gen Property Marketplace</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
+        .glass { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+
+    <nav class="sticky top-0 z-40 glass border-b border-gray-800/60 px-4 py-3 mb-6">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <span class="text-2xl font-black text-blue-500 cursor-pointer" onclick="showPage('tenantView')">ZONIX PRO</span>
+            <div class="flex items-center space-x-4 text-xs font-bold text-gray-400">
+                <button onclick="showPage('tenantView')" class="hover:text-blue-400">Properties</button>
+                <button onclick="showPage('pipelineView')" class="hover:text-blue-400">My Bookings</button>
+                <button onclick="showPage('profileView')" class="hover:text-blue-400">Profile</button>
+                <button onclick="showPage('ownerView')" class="text-emerald-400">Owner Portal</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4">
+        <div id="tenantView" class="page-section active space-y-8">
+            <input type="text" id="searchBox" oninput="filterRooms()" placeholder="Search properties..." class="w-full glass p-4 rounded-xl text-sm">
+            <div id="propertyGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        </div>
+
+        <div id="pipelineView" class="page-section space-y-4">
+            <h3 class="text-lg font-bold text-gray-400">My Active Site-Visit Pipeline</h3>
+            <div id="studentStatusTrack" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs"></div>
+        </div>
+
+        <div id="profileView" class="page-section max-w-sm mx-auto glass p-6 rounded-2xl">
+            <h2 class="text-lg font-bold mb-4">Edit My Profile</h2>
+            <input type="text" id="savedName" placeholder="Full Name" class="w-full bg-gray-900 p-3 rounded-xl mb-3 border border-gray-800">
+            <input type="tel" id="savedPhone" placeholder="Mobile Number" class="w-full bg-gray-900 p-3 rounded-xl mb-4 border border-gray-800">
+            <button onclick="saveProfile()" class="w-full bg-blue-500 py-3 rounded-xl font-bold">Save Details</button>
+        </div>
+
+        <div id="ownerView" class="page-section grid grid-cols-1 lg:grid-cols-3 gap-8">
+            </div>
+    </main>
+
+    <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 hidden">
+        <div class="glass w-full max-w-md rounded-2xl p-6">
+            <form id="modalBookingForm" onsubmit="executeBookingRequest(event)">
+                <input type="hidden" id="modalRoomId">
+                <input type="text" id="tenantName" placeholder="Full Name" class="w-full mb-3 p-3 bg-gray-900 rounded-xl border border-gray-800">
+                <input type="tel" id="tenantPhone" placeholder="Mobile" class="w-full mb-3 p-3 bg-gray-900 rounded-xl border border-gray-800">
+                <button type="submit" class="w-full bg-blue-500 py-3 rounded-xl font-bold">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- Navigation Logic ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(div => div.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // --- Profile Auto-Fill Logic ---
+        function saveProfile() {
+            const profile = { name: document.getElementById('savedName').value, phone: document.getElementById('savedPhone').value };
+            localStorage.setItem('tenantProfile', JSON.stringify(profile));
+            alert("Profile Saved!");
+        }
+
+        window.onload = () => {
+            const saved = localStorage.getItem('tenantProfile');
+            if(saved) {
+                const p = JSON.parse(saved);
+                document.getElementById('savedName').value = p.name || '';
+                document.getElementById('savedPhone').value = p.phone || '';
+            }
+        };
+
+        // --- Improved Booking Flow ---
+        function openBookingModal(roomId) {
+            // Auto-fill form from localStorage if exists
+            const saved = JSON.parse(localStorage.getItem('tenantProfile'));
+            if(saved) {
+                document.getElementById('tenantName').value = saved.name || '';
+                document.getElementById('tenantPhone').value = saved.phone || '';
+            }
+            document.getElementById('modalRoomId').value = roomId;
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+
+        function executeBookingRequest(e) {
+            e.preventDefault();
+            const name = document.getElementById('tenantName').value;
+            const phone = document.getElementById('tenantPhone').value;
+            
+            // Save to LocalStorage automatically on booking
+            localStorage.setItem('tenantProfile', JSON.stringify({ name, phone }));
+            
+            // Logic to add to pipeline...
+            document.getElementById('bookingModal').classList.add('hidden');
+            alert("🚀 Booking Confirmed!");
+            showPage('pipelineView'); // Redirect to tracking
+        }
+        
+        // ... (Baaki saara filter aur owner ka purana logic yahan niche add karein)
+    </script>
+</body>
+</html>

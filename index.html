@@ -1,366 +1,360 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zonix - Premium Room Rentals in India</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'zonix-blue': '#0A2540',
-                        'zonix-charcoal': '#2D3748',
-                    },
-                    fontFamily: {
-                        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-                    }
-                }
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Zonix · Indian room rentals</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'deep-blue': '#0A2540',
+            'charcoal': '#1E1E1E',
+            'soft-white': '#FBFBFB',
+            'zen-gray': '#F5F7FA',
+          }
         }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .filter-chip {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .filter-chip:hover {
-            transform: translateY(-2px);
-        }
-        
-        .filter-chip.active {
-            background-color: #0A2540;
-            color: white;
-            box-shadow: 0 10px 25px -5px rgba(10, 37, 64, 0.3);
-        }
-        
-        .property-card {
-            transition: all 0.3s ease;
-        }
-        
-        .property-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .modal {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .modal.show {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .modal-content {
-            animation: slideUp 0.3s ease;
-        }
-        
-        @keyframes slideUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .toast {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: #10B981;
-            color: white;
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            z-index: 9999;
-            opacity: 0;
-            transform: translateX(400px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .toast.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        .tag {
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: #F0F4F8;
-            color: #0A2540;
-            font-weight: 500;
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      letter-spacing: -0.01em;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .card-hover {
+      transition: all 0.2s ease;
+      border: 1px solid rgba(10, 37, 64, 0.08);
+    }
+    .dark .card-hover {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(10, 37, 64, 0.08);
+    }
+    .dark .card-hover:hover {
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    }
+    .chip-active {
+      background-color: #0A2540;
+      color: white;
+      border: 2px solid #0A2540;
+    }
+    .dark .chip-active {
+      background-color: #FBFBFB;
+      color: #0A2540;
+      border: 2px solid #FBFBFB;
+    }
+    .chip-inactive {
+      background-color: white;
+      color: #0A2540;
+      border: 2px solid #e5e7eb;
+    }
+    .dark .chip-inactive {
+      background-color: #1E1E1E;
+      color: #FBFBFB;
+      border: 2px solid #333333;
+    }
+    .toast-fade {
+      animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideUp {
+      0% { opacity: 0; transform: translateY(20px) translateX(-50%); }
+      100% { opacity: 1; transform: translateY(0) translateX(-50%); }
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #0A2540; border-radius: 20px; }
+    .dark ::-webkit-scrollbar-thumb { background: #FBFBFB; }
+  </style>
 </head>
-<body class="bg-white text-zonix-charcoal">
+<body class="bg-white text-charcoal antialiased dark:bg-zinc-900 dark:text-zinc-100">
+
+  <!-- Fixed Top Header -->
+  <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md z-30 border-b border-gray-100 dark:bg-zinc-900/90 dark:border-zinc-800">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-5 py-4">
+      <h1 class="text-2xl font-bold tracking-tight text-deep-blue dark:text-white select-none">Zonix</h1>
+      <div class="flex items-center gap-4">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="p-2 rounded-xl bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 hover:scale-105 transition">
+          <span id="theme-icon">🌙</span>
+        </button>
+        <!-- Dummy Login Button -->
+        <button class="px-4 py-2 text-sm font-semibold text-white bg-deep-blue dark:bg-zinc-100 dark:text-deep-blue rounded-xl hover:opacity-90 transition shadow-sm">
+          Login
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="pt-24 pb-16 px-4 sm:px-5 max-w-5xl mx-auto">
     
-    <!-- Fixed Header -->
-    <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-zonix-blue tracking-tight">Zonix</h1>
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-zonix-blue to-blue-700 flex items-center justify-center cursor-pointer">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                </svg>
-            </div>
+    <!-- Purpose Filters Section (USP) -->
+    <section class="mb-6">
+      <h2 class="text-2xl sm:text-3xl font-semibold text-deep-blue dark:text-white tracking-tight mb-4 leading-tight">
+        Find a Room Based on Your Purpose
+      </h2>
+      <div class="flex flex-wrap gap-3 items-center" id="purpose-chips-container">
+        <button data-purpose="study" class="chip-active px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 shadow-sm">
+          <span class="text-lg">📘</span> Study
+        </button>
+        <button data-purpose="job" class="chip-inactive px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2">
+          <span class="text-lg">💼</span> Job
+        </button>
+        <button data-purpose="business" class="chip-inactive px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2">
+          <span class="text-lg">🚀</span> Business
+        </button>
+      </div>
+    </section>
+
+    <!-- Unified Search and Advanced Filters Section -->
+    <section class="mb-8 bg-zen-gray dark:bg-zinc-800/50 p-4 rounded-2xl border border-gray-100 dark:border-zinc-800 shadow-sm">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <!-- Location Search Bar -->
+        <div class="relative">
+          <input type="text" id="search-input" placeholder="Search by City (e.g. Kota, Indore, Panna)..." 
+                 class="w-full pl-10 pr-4 py-3 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-deep-blue/20 dark:focus:ring-white/20 transition text-sm">
+          <span class="absolute left-3.5 top-3.5 text-gray-400">🔍</span>
         </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="pt-24 pb-20 px-6">
-        <div class="max-w-7xl mx-auto">
-            
-            <!-- Purpose Section -->
-            <section class="mb-16">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-semibold text-zonix-blue mb-3 tracking-tight">Find a Room Based on Your Purpose</h2>
-                    <p class="text-gray-500 text-sm md:text-base max-w-xl mx-auto">Select your primary need to discover perfectly matched accommodations</p>
-                </div>
-                
-                <div class="flex flex-col md:flex-row gap-4 justify-center max-w-4xl mx-auto">
-                    <button onclick="filterProperties('Study')" class="filter-chip active px-10 py-6 rounded-2xl border-2 border-gray-200 bg-white font-semibold text-lg hover:border-zonix-blue focus:outline-none" data-purpose="Study">
-                        <div class="flex flex-col items-center gap-2">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                            </svg>
-                            <span>Study</span>
-                        </div>
-                    </button>
-                    
-                    <button onclick="filterProperties('Job')" class="filter-chip px-10 py-6 rounded-2xl border-2 border-gray-200 bg-white font-semibold text-lg hover:border-zonix-blue focus:outline-none" data-purpose="Job">
-                        <div class="flex flex-col items-center gap-2">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                            </svg>
-                            <span>Job</span>
-                        </div>
-                    </button>
-                    
-                    <button onclick="filterProperties('Business')" class="filter-chip px-10 py-6 rounded-2xl border-2 border-gray-200 bg-white font-semibold text-lg hover:border-zonix-blue focus:outline-none" data-purpose="Business">
-                        <div class="flex flex-col items-center gap-2">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                            </svg>
-                            <span>Business</span>
-                        </div>
-                    </button>
-                </div>
-            </section>
-
-            <!-- Property Listings -->
-            <section>
-                <div class="mb-8">
-                    <h3 class="text-2xl font-semibold text-zonix-blue mb-2">Available Properties</h3>
-                    <p class="text-gray-500 text-sm">Curated spaces designed for <span id="currentPurpose" class="font-semibold text-zonix-blue">Study</span></p>
-                </div>
-                
-                <div id="propertyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Properties will be injected here by JavaScript -->
-                </div>
-            </section>
-
+        <!-- Price Range Filter -->
+        <div>
+          <select id="price-filter" class="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-deep-blue/20 transition text-sm appearance-none cursor-pointer">
+            <option value="all">💰 All Budgets</option>
+            <option value="low">Below ₹5,000 /mo</option>
+            <option value="mid">₹5,000 - ₹8,000 /mo</option>
+            <option value="high">Above ₹8,000 /mo</option>
+          </select>
         </div>
-    </main>
-
-    <!-- Booking Modal -->
-    <div id="bookingModal" class="modal fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center px-6">
-        <div class="modal-content bg-white rounded-3xl p-8 max-w-md w-full relative shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-            
-            <h3 class="text-2xl font-bold text-zonix-blue mb-2">Book Your Stay</h3>
-            <p class="text-gray-500 text-sm mb-6">Fill in your details to send a free booking request</p>
-            
-            <form id="bookingForm" onsubmit="submitBooking(event)" class="space-y-5">
-                <div>
-                    <label class="block text-sm font-semibold text-zonix-charcoal mb-2">Your Name</label>
-                    <input type="text" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-zonix-blue focus:outline-none transition" placeholder="Enter your full name">
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-semibold text-zonix-charcoal mb-2">Mobile Number</label>
-                    <input type="tel" required pattern="[0-9]{10}" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-zonix-blue focus:outline-none transition" placeholder="10-digit mobile number">
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-semibold text-zonix-charcoal mb-2">Confirm Purpose</label>
-                    <select required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-zonix-blue focus:outline-none transition bg-white">
-                        <option value="">Select your purpose</option>
-                        <option value="Study">Study</option>
-                        <option value="Job">Job</option>
-                        <option value="Business">Business</option>
-                    </select>
-                </div>
-                
-                <input type="hidden" id="selectedProperty" name="property">
-                
-                <button type="submit" class="w-full bg-zonix-blue text-white py-4 rounded-xl font-semibold text-lg hover:bg-blue-900 transition mt-6">
-                    Confirm Booking Request
-                </button>
-            </form>
+        <!-- Room Type Filter -->
+        <div>
+          <select id="type-filter" class="w-full px-4 py-3 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-deep-blue/20 transition text-sm appearance-none cursor-pointer">
+            <option value="all">🏠 All Room Types</option>
+            <option value="Single">Single Room</option>
+            <option value="Sharing">Sharing Flat</option>
+          </select>
         </div>
+      </div>
+    </section>
+
+    <!-- Property Listings Grid -->
+    <section>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="property-grid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Booking Request Modal -->
+  <div id="booking-modal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40 backdrop-blur-sm hidden opacity-0 transition-all duration-200">
+    <div class="bg-white dark:bg-zinc-800 w-full max-w-md rounded-2xl shadow-2xl p-6 border border-gray-100 dark:border-zinc-700 transform transition-all duration-200 scale-95" id="modal-content">
+      <div class="flex justify-between items-center mb-5">
+        <h3 class="text-xl font-semibold text-deep-blue dark:text-white">Send Free Booking Request</h3>
+        <button id="close-modal-btn" class="text-gray-400 hover:text-deep-blue dark:hover:text-white transition p-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+      <form id="booking-form" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Name</label>
+          <input type="text" id="tenant-name" required placeholder="Your full name" class="w-full px-4 py-3 border border-gray-200 dark:border-zinc-700 dark:bg-zinc-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-deep-blue/20 transition">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Mobile Number</label>
+          <input type="tel" id="tenant-mobile" required placeholder="+91 98765 43210" class="w-full px-4 py-3 border border-gray-200 dark:border-zinc-700 dark:bg-zinc-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-deep-blue/20 transition">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm Purpose</label>
+          <select id="purpose-select" required class="w-full px-4 py-3 border border-gray-200 dark:border-zinc-700 dark:bg-zinc-900 rounded-xl focus:outline-none transition">
+            <option value="Study">Study</option>
+            <option value="Job">Job</option>
+            <option value="Business">Business</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full bg-deep-blue dark:bg-white text-white dark:text-deep-blue font-semibold py-3.5 rounded-xl transition active:scale-[0.98] shadow-md mt-2">
+          Confirm Booking Request
+        </button>
+      </form>
     </div>
+  </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-        <div class="flex items-center gap-3">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span class="font-semibold">Request sent to Landlord successfully!</span>
-        </div>
-    </div>
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-xs px-4 pointer-events-none"></div>
 
-    <script>
-        // Property Data
-        const properties = [
-            {
-                id: 1,
-                image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80',
-                rent: '6,500',
-                location: 'Kota, Rajasthan',
-                purpose: 'Study',
-                tags: ['24x7 Power Backup', 'Near Coaching Hub', 'Study Room']
-            },
-            {
-                id: 2,
-                image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80',
-                rent: '8,200',
-                location: 'Connaught Place, Delhi',
-                purpose: 'Job',
-                tags: ['Near Metro Station', 'High-Speed Wi-Fi', 'AC Room']
-            },
-            {
-                id: 3,
-                image: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800&q=80',
-                rent: '5,800',
-                location: 'Varanasi, UP',
-                purpose: 'Study',
-                tags: ['Quiet Environment', '24x7 Power Backup', 'Library Access']
-            },
-            {
-                id: 4,
-                image: 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=800&q=80',
-                rent: '12,500',
-                location: 'Whitefield, Bangalore',
-                purpose: 'Job',
-                tags: ['Near Metro Station', 'High-Speed Wi-Fi', 'Gym Access']
-            },
-            {
-                id: 5,
-                image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80',
-                rent: '15,000',
-                location: 'Bandra West, Mumbai',
-                purpose: 'Business',
-                tags: ['Meeting Room', 'High-Speed Wi-Fi', 'Premium Location']
-            }
-        ];
+  <script>
+    (function() {
+      // Expanded Indian Market Mock Data
+      const properties = [
+        { id: 1, area: "Kota, Rajendra Nagar", rawPrice: 6500, price: "₹6,500/month", type: "Single", imagePlaceholder: "🛏️📚", purposes: ["study"], ownerPhone: "9876543210", tags: ["24x7 Power Backup", "Near Coaching Hub", "Quiet Library Access"] },
+        { id: 2, area: "Indore, Vijay Nagar", rawPrice: 7800, price: "₹7,800/month", type: "Single", imagePlaceholder: "🏙️💻", purposes: ["study", "job"], ownerPhone: "9876543211", tags: ["Flicker-Free Lights", "High-Speed Wi-Fi", "Food Included"] },
+        { id: 3, area: "Varanasi, Near BHU Hub", rawPrice: 4800, price: "₹4,800/month", type: "Sharing", imagePlaceholder: "📖🏞️", purposes: ["study"], ownerPhone: "9876543212", tags: ["Very Budget Friendly", "24x7 Water", "Spacious Gallery"] },
+        { id: 4, area: "Bengaluru, Koramangala", rawPrice: 12500, price: "₹12,500/month", type: "Sharing", imagePlaceholder: "🏢💼", purposes: ["job", "business"], ownerPhone: "9876543213", tags: ["Near Metro", "Premium Furnished", "Gym Access"] },
+        { id: 5, area: "Panna, Near Simariya Chowk", rawPrice: 3500, price: "₹3,500/month", type: "Single", imagePlaceholder: "🏡🌳", purposes: ["study", "business"], ownerPhone: "9876543214", tags: ["Peaceful Area", "Ground Floor", "Own Parking"] },
+        { id: 6, area: "Hyderabad, Gachibowli", rawPrice: 9500, price: "₹9,500/month", type: "Single", imagePlaceholder: "💻🚀", purposes: ["job", "business"], ownerPhone: "9876543215", tags: ["Near IT Tech Park", "Power Backup", "AC Implemented"] }
+      ];
 
-        let currentFilter = 'Study';
+      let currentPurpose = 'study';
 
-        // Filter Properties
-        function filterProperties(purpose) {
-            currentFilter = purpose;
-            
-            // Update active state on chips
-            document.querySelectorAll('.filter-chip').forEach(chip => {
-                chip.classList.remove('active');
-            });
-            event.target.closest('.filter-chip').classList.add('active');
-            
-            // Update current purpose text
-            document.getElementById('currentPurpose').textContent = purpose;
-            
-            // Render filtered properties
-            renderProperties();
-        }
+      // DOM Elements
+      const grid = document.getElementById('property-grid');
+      const chips = document.querySelectorAll('[data-purpose]');
+      const searchInput = document.getElementById('search-input');
+      const priceFilter = document.getElementById('price-filter');
+      const typeFilter = document.getElementById('type-filter');
+      const modal = document.getElementById('booking-modal');
+      const modalContent = document.getElementById('modal-content');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const bookingForm = document.getElementById('booking-form');
+      const toastContainer = document.getElementById('toast-container');
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
 
-        // Render Properties
-        function renderProperties() {
-            const grid = document.getElementById('propertyGrid');
-            const filtered = properties.filter(p => p.purpose === currentFilter);
-            
-            grid.innerHTML = filtered.map(property => `
-                <div class="property-card bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-                    <div class="h-56 overflow-hidden">
-                        <img src="${property.image}" alt="${property.location}" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-3">
-                            <div>
-                                <h4 class="text-xl font-bold text-zonix-blue mb-1">₹${property.rent}<span class="text-sm font-normal text-gray-500">/month</span></h4>
-                                <p class="text-gray-600 text-sm">${property.location}</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-2 mb-5">
-                            ${property.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        </div>
-                        <button onclick="openModal(${property.id})" class="w-full bg-zonix-blue text-white py-3 rounded-xl font-semibold hover:bg-blue-900 transition">
-                            Send Free Booking Request
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
+      // ---------- Dark Mode Logic ----------
+      themeToggle.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+        const isDark = document.documentElement.classList.contains('dark');
+        themeIcon.textContent = isDark ? '☀️' : '🌙';
+      });
 
-        // Modal Functions
-        function openModal(propertyId) {
-            document.getElementById('selectedProperty').value = propertyId;
-            document.getElementById('bookingModal').classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
+      // ---------- Dynamic Master Filter Engine ----------
+      function renderFilteredGrid() {
+        const searchText = searchInput.value.toLowerCase().trim();
+        const priceValue = priceFilter.value;
+        const typeValue = typeFilter.value;
 
-        function closeModal() {
-            document.getElementById('bookingModal').classList.remove('show');
-            document.body.style.overflow = 'auto';
-            document.getElementById('bookingForm').reset();
-        }
+        const filtered = properties.filter(item => {
+          const matchesPurpose = item.purposes.includes(currentPurpose);
+          const matchesSearch = item.area.toLowerCase().includes(searchText);
+          
+          let matchesPrice = true;
+          if (priceValue === 'low') matchesPrice = item.rawPrice < 5000;
+          else if (priceValue === 'mid') matchesPrice = item.rawPrice >= 5000 && item.rawPrice <= 8000;
+          else if (priceValue === 'high') matchesPrice = item.rawPrice > 8000;
 
-        // Submit Booking
-        function submitBooking(event) {
-            event.preventDefault();
-            
-            // Close modal
-            closeModal();
-            
-            // Show toast
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            
-            // Hide toast after 3 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
+          let matchesType = true;
+          if (typeValue !== 'all') matchesType = item.type === typeValue;
 
-        // Close modal on backdrop click
-        document.getElementById('bookingModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
+          return matchesPurpose && matchesSearch && matchesPrice && matchesType;
         });
 
-        // Initial render
-        renderProperties();
-    </script>
+        if (filtered.length === 0) {
+          grid.innerHTML = `<div class="col-span-full text-center py-16 text-gray-400 dark:text-zinc-500 bg-gray-50 dark:bg-zinc-800/30 rounded-2xl">No properties match your current search criteria.</div>`;
+          return;
+        }
 
+        grid.innerHTML = filtered.map(item => {
+          const tagsHtml = item.tags.map(tag => 
+            `<span class="bg-gray-50 dark:bg-zinc-800 text-deep-blue/80 dark:text-zinc-300 text-xs px-2.5 py-1 rounded-full border border-gray-100 dark:border-zinc-700">${tag}</span>`
+          ).join('');
+
+          // WhatsApp redirection link logic
+          const waMessage = encodeURIComponent(`Hi, I saw your room listed on Zonix for ${item.area} (${item.price}). Is it available?`);
+          const waLink = `https://wa.me/91${item.ownerPhone}?text=${waMessage}`;
+
+          return `
+            <div class="bg-white dark:bg-zinc-800 rounded-2xl p-4 card-hover flex flex-col shadow-sm">
+              <div class="w-full h-36 bg-gradient-to-br from-deep-blue/5 to-deep-blue/10 dark:from-zinc-700 dark:to-zinc-600 rounded-xl flex items-center justify-center text-4xl mb-4 border border-deep-blue/5">
+                <span class="drop-shadow">${item.imagePlaceholder}</span>
+              </div>
+              <div class="flex-1 mb-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-semibold text-lg text-charcoal dark:text-white leading-tight">${item.area}</h3>
+                  <span class="text-xs font-bold px-2 py-0.5 bg-deep-blue/10 dark:bg-white/10 text-deep-blue dark:text-zinc-200 rounded-md">${item.type}</span>
+                </div>
+                <p class="text-deep-blue dark:text-emerald-400 font-bold text-xl mt-1">${item.price}</p>
+                <div class="flex flex-wrap gap-1.5 mt-3">
+                  ${tagsHtml}
+                </div>
+              </div>
+              
+              <!-- Direct Communication Actions -->
+              <div class="grid grid-cols-2 gap-2 mb-2">
+                <a href="tel:${item.ownerPhone}" class="flex items-center justify-center gap-1.5 border border-gray-200 dark:border-zinc-700 text-charcoal dark:text-zinc-200 text-xs font-semibold py-2.5 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-700 transition">
+                  📞 Call Owner
+                </a>
+                <a href="${waLink}" target="_blank" class="flex items-center justify-center gap-1.5 bg-emerald-500 text-white text-xs font-semibold py-2.5 rounded-xl hover:bg-emerald-600 transition">
+                  💬 WhatsApp
+                </a>
+              </div>
+              <button data-property-id="${item.id}" data-purpose="${currentPurpose}" 
+                      class="send-request-btn w-full bg-deep-blue dark:bg-zinc-100 text-white dark:text-deep-blue font-semibold py-3 rounded-xl hover:opacity-90 transition-all text-xs tracking-wide shadow-sm">
+                Send Free Booking Request
+              </button>
+            </div>
+          `;
+        }).join('');
+
+        // Attach event listeners to modal triggers
+        document.querySelectorAll('.send-request-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            openModal(this.getAttribute('data-property-id'), this.getAttribute('data-purpose'));
+          });
+        });
+      }
+
+      // Event Listeners for Filters
+      chips.forEach(chip => {
+        chip.addEventListener('click', function() {
+          chips.forEach(c => { c.classList.remove('chip-active'); c.classList.add('chip-inactive'); });
+          this.classList.remove('chip-inactive'); this.classList.add('chip-active');
+          currentPurpose = this.getAttribute('data-purpose');
+          renderFilteredGrid();
+        });
+      });
+
+      [searchInput, priceFilter, typeFilter].forEach(element => {
+        element.addEventListener('input', renderFilteredGrid);
+      });
+
+      // ---------- Modal Logic ----------
+      function openModal(propertyId, purpose) {
+        if (!modal) return;
+        const purposeSelect = document.getElementById('purpose-select');
+        if (purposeSelect) purposeSelect.value = purpose.charAt(0).toUpperCase() + purpose.slice(1);
+        modal.classList.remove('hidden');
+        void modal.offsetWidth;
+        modal.classList.add('opacity-100');
+        if (modalContent) modalContent.classList.remove('scale-95');
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.classList.add('opacity-0');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+          if (bookingForm) bookingForm.reset();
+        }, 200);
+      }
+
+      if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+      // ---------- Toast Notification ----------
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-fade bg-deep-blue dark:bg-white text-white dark:text-deep-blue px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 mb-3 justify-between pointer-events-auto';
+        toast.innerHTML = `<span class="text-sm font-medium">${message}</span>💡`;
+        toastContainer.appendChild(toast);
+        setTimeout(() => { toast.remove(); }, 3500);
+      }
+
+      if (bookingForm) {
+        bookingForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          showToast("Booking Request sent successfully to Landlord!");
+          closeModal();
+        });
+      }
+
+      // Initialize
+      renderFilteredGrid();
+    })();
+  </script>
 </body>
 </html>

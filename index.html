@@ -525,4 +525,31 @@
         document.getElementById('formTitle').value = "Navodaya Boys Hostel (Verified via Maps)";
         document.getElementById('formLandmark').value = "Near Main Coaching Hub";
     }
+
+function executeBookingRequest(e) {
+    e.preventDefault();
+    
+    // 1. Get values
+    const name = document.getElementById('tenantName').value;
+    const phone = document.getElementById('tenantPhone').value;
+    
+    // 2. Save to localStorage
+    localStorage.setItem('tenantProfile', JSON.stringify({ name, phone }));
+    
+    // ... baki ka existing logic ...
+    alert("🚀 Booking request sent!");
+}
+
+// Isko script tag ke top level par rakhein
+window.onload = function() {
+    const savedProfile = localStorage.getItem('tenantProfile');
+    if (savedProfile) {
+        const profile = JSON.parse(savedProfile);
+        // Fields ko auto-fill kar dein
+        document.getElementById('tenantName').value = profile.name;
+        document.getElementById('tenantPhone').value = profile.phone;
+    }
+};
+
+
 </script>

@@ -302,146 +302,198 @@
                     <div class="glass rounded-2xl overflow-hidden border-gray-800/80 group">
                         <div class="relative h-48 w-full bg-gray-900">
                             <img id="display-img-${room.id}" src="${room.images.room}" class="w-full h-full object-cover transition duration-300">
-                   
+                            
+                            <!-- Multi angle tab panel control architecture -->
+                            <div class="absolute bottom-3 left-3 flex space-x-1 btn-group-${room.id} text-[10px] font-bold">
+                                <button onclick="switchCardPhoto(${room.id}, 'room')" class="px-2.5 py-1 rounded bg-blue-500 text-white backdrop-blur shadow">🏡 Main/Hall</button>
+                                <button onclick="switchCardPhoto(${room.id}, 'bath')" class="px-2.5 py-1 rounded bg-black/60 text-gray-400 backdrop-blur">🚿 Bathroom</button>
+                                <button onclick="switchCardPhoto(${room.id}, 'kitchen')" class="px-2.5 py-1 rounded bg-black/60 text-gray-400 backdrop-blur">🍳 Kitchen</button>
+                            </div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zonix Pro - Next-Gen Property Marketplace</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
-        .glass { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .page-section { display: none; }
-        .page-section.active { display: block; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-    </style>
-</head>
-<body class="min-h-screen pb-12">
+                            <span class="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded bg-black/80 text-blue-400 border border-white/5 uppercase">
+                                ${room.type}
+                            </span>
+                        </div>
 
-    <nav class="sticky top-0 z-40 glass border-b border-gray-800/60 px-4 py-3 mb-6">
-        <div class="max-w-6xl mx-auto flex items-center justify-between">
-            <span class="text-2xl font-black text-blue-500 cursor-pointer" onclick="showPage('tenantView')">ZONIX PRO</span>
-            <div class="flex items-center space-x-4 text-xs font-bold text-gray-400">
-                <button onclick="showPage('tenantView')" class="hover:text-blue-400">Properties</button>
-                <button onclick="showPage('pipelineView')" class="hover:text-blue-400">My Bookings</button>
-                <button onclick="showPage('profileView')" class="hover:text-blue-400">Profile</button>
-                <button onclick="showPage('ownerView')" class="text-emerald-400">Owner Portal</button>
-            </div>
-        </div>
-    </nav>
+                        <div class="p-4 space-y-3 text-xs">
+                            <div>
+                                <div class="flex items-center space-x-1.5 text-gray-400 text-[11px]">
+                                    <i class="fa-solid fa-map-location-dot text-red-400"></i>
+                                    <span>${room.landmark}</span>
+                                </div>
+                                <h3 class="font-bold text-sm text-gray-100 mt-1 line-clamp-1">${room.title}</h3>
+                                <div class="flex items-center space-x-3 mt-1.5">
+                                    <span class="text-base font-black text-blue-400">₹${room.rent}/mo</span>
+                                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-400 font-medium border border-gray-700">${room.maintenance}</span>
+                                </div>
+                            </div>
 
-    <main class="max-w-6xl mx-auto px-4">
-        <div id="tenantView" class="page-section active space-y-8">
-            <input type="text" id="searchBox" oninput="filterRooms()" placeholder="Search properties..." class="w-full glass p-4 rounded-xl text-sm">
-            <div id="propertyGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-        </div>
+                            <div class="flex items-center justify-between border-t border-b border-gray-800/60 py-2 text-[11px]">
+                                <a href="${room.mapUrl}" target="_blank" class="text-gray-400 hover:text-blue-400 flex items-center space-x-1"><i class="fa-solid fa-location-arrow text-blue-400"></i> <span>View Directions</span></a>
+                                <span class="text-gray-500"><i class="fa-solid fa-calendar-clock mr-1"></i>Slot: ${room.timeSlot}</span>
+                            </div>
 
-        <div id="pipelineView" class="page-section space-y-4">
-            <h3 class="text-lg font-bold text-gray-400">My Active Site-Visit Pipeline</h3>
-            <div id="studentStatusTrack" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs"></div>
-        </div>
-
-        <div id="profileView" class="page-section max-w-sm mx-auto glass p-6 rounded-2xl">
-            <h2 class="text-lg font-bold mb-4">Edit My Profile</h2>
-            <input type="text" id="savedName" placeholder="Full Name" class="w-full bg-gray-900 p-3 rounded-xl mb-3 border border-gray-800">
-            <input type="tel" id="savedPhone" placeholder="Mobile Number" class="w-full bg-gray-900 p-3 rounded-xl mb-4 border border-gray-800">
-            <button onclick="saveProfile()" class="w-full bg-blue-500 py-3 rounded-xl font-bold">Save Details</button>
-        </div>
-
-        <div id="ownerView" class="page-section grid grid-cols-1 lg:grid-cols-3 gap-8">
-            </div>
-    </main>
-
-    <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 hidden">
-        <div class="glass w-full max-w-md rounded-2xl p-6">
-            <form id="modalBookingForm" onsubmit="executeBookingRequest(event)">
-                <input type="hidden" id="modalRoomId">
-                <input type="text" id="tenantName" placeholder="Full Name" class="w-full mb-3 p-3 bg-gray-900 rounded-xl border border-gray-800">
-                <input type="tel" id="tenantPhone" placeholder="Mobile" class="w-full mb-3 p-3 bg-gray-900 rounded-xl border border-gray-800">
-                <button type="submit" class="w-full bg-blue-500 py-3 rounded-xl font-bold">Confirm Booking</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // --- Navigation Logic ---
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(div => div.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+                            <button onclick="openBookingModal(${room.id})" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl transition">
+                                Book Physical Inspection Slot
+                            </button>
+                        </div>
+                    </div>`;
+            });
         }
 
-        // --- Profile Auto-Fill Logic ---
-        function saveProfile() {
-            const profile = { name: document.getElementById('savedName').value, phone: document.getElementById('savedPhone').value };
-            localStorage.setItem('tenantProfile', JSON.stringify(profile));
-            alert("Profile Saved!");
-        }
-
-        window.onload = () => {
-            const saved = localStorage.getItem('tenantProfile');
-            if(saved) {
-                const p = JSON.parse(saved);
-                document.getElementById('savedName').value = p.name || '';
-                document.getElementById('savedPhone').value = p.phone || '';
-            }
-        };
-
-        // --- Improved Booking Flow ---
         function openBookingModal(roomId) {
-            // Auto-fill form from localStorage if exists
-            const saved = JSON.parse(localStorage.getItem('tenantProfile'));
-            if(saved) {
-                document.getElementById('tenantName').value = saved.name || '';
-                document.getElementById('tenantPhone').value = saved.phone || '';
-            }
+            const room = roomsData.find(r => r.id === roomId);
+            if(!room) return;
             document.getElementById('modalRoomId').value = roomId;
+            document.getElementById('tenantTimeSelection').innerHTML = `<option value="${room.timeSlot}">${room.timeSlot}</option>`;
             document.getElementById('bookingModal').classList.remove('hidden');
         }
 
+        function closeBookingModal() { document.getElementById('bookingModal').classList.add('hidden'); }
+
         function executeBookingRequest(e) {
             e.preventDefault();
+            const roomId = document.getElementById('modalRoomId').value;
             const name = document.getElementById('tenantName').value;
             const phone = document.getElementById('tenantPhone').value;
-            
-            // Save to LocalStorage automatically on booking
-            localStorage.setItem('tenantProfile', JSON.stringify({ name, phone }));
-            
-            // Logic to add to pipeline...
-            document.getElementById('bookingModal').classList.add('hidden');
-            alert("🚀 Booking Confirmed!");
-            showPage('pipelineView'); // Redirect to tracking
+            const chosenTime = document.getElementById('tenantTimeSelection').value;
+            const room = roomsData.find(r => r.id == roomId);
+
+            bookingRequests.unshift({ id: Date.now(), roomId: parseInt(roomId), roomTitle: room.title, tenantName: name, tenantPhone: phone, slot: chosenTime, status: "pending" });
+            closeBookingModal();
+            renderStudentTracker();
+            alert("🚀 Direct Site Visit Request scheduled in the Matrix pipeline!");
         }
-        
-        // ... (Baaki saara filter aur owner ka purana logic yahan niche add karein)
+
+        function renderStudentTracker() {
+            const container = document.getElementById('studentStatusTrack');
+            container.innerHTML = '';
+            if(bookingRequests.length === 0) {
+                container.innerHTML = `<p class="text-gray-600">No current pipeline operations active.</p>`;
+                return;
+            }
+            bookingRequests.forEach(req => {
+                let statusBadge = req.status === 'pending' ? '<span class="text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/10">⏳ Pending Approval</span>' : 
+                                  req.status === 'accepted' ? '<span class="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/10">🟢 Visit Scheduled</span>' : 
+                                  '<span class="text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/10">🔴 Cancelled</span>';
+                container.innerHTML += `
+                    <div class="glass p-3 rounded-xl flex justify-between items-center border-gray-800">
+                        <div>
+                            <p class="font-bold text-gray-200">${req.roomTitle}</p>
+                            <p class="text-[10px] text-gray-500">Timeline: ${req.slot}</p>
+                        </div>
+                        <div>${statusBadge}</div>
+                    </div>`;
+            });
+        }
+
+        function renderOwnerRequests() {
+            const container = document.getElementById('incomingRequestGrid');
+            container.innerHTML = '';
+            if(bookingRequests.length === 0) {
+                container.innerHTML = `<div class="p-4 glass rounded-xl text-center text-gray-500">No lead entries found inside the pipeline buffer.</div>`;
+                return;
+            }
+            bookingRequests.forEach(req => {
+                container.innerHTML += `
+                    <div class="glass p-3.5 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-2 border-gray-800 text-xs">
+                        <div>
+                            <p class="text-gray-400">Target Node: <span class="text-white font-medium">${req.roomTitle}</span></p>
+                            <p class="text-gray-300 font-bold mt-1">👤 Client: ${req.tenantName} | 📞 ${req.tenantPhone} | ⏰ Target Time: ${req.slot}</p>
+                        </div>
+                        <div class="flex space-x-1">
+                            ${req.status === 'pending' ? `
+                                <button onclick="updateRequestStatus(${req.id}, 'accepted')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg">Accept & Schedule</button>
+                                <button onclick="updateRequestStatus(${req.id}, 'rejected')" class="bg-gray-800 text-red-400 font-bold px-3 py-1.5 rounded-lg">Decline</button>
+                            ` : `<span class="font-bold uppercase ${req.status==='accepted'?'text-emerald-400':'text-red-400'}">${req.status}</span>`}
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function updateRequestStatus(reqId, statusValue) {
+            const req = bookingRequests.find(r => r.id === reqId);
+            if(req) req.status = statusValue;
+            if(statusValue === 'accepted') confetti({ particleCount: 30 });
+            renderOwnerRequests();
+        }
+
+        function renderOwnerGrid() {
+            const container = document.getElementById('ownerGrid');
+            container.innerHTML = '';
+            roomsData.forEach(room => {
+                container.innerHTML += `
+                    <div class="glass p-3 rounded-xl flex items-center justify-between text-xs">
+                        <div class="flex items-center space-x-3">
+                            <img src="${room.images.room}" class="w-10 h-10 rounded-lg object-cover">
+                            <div>
+                                <h4 class="font-bold text-gray-200 line-clamp-1">${room.title}</h4>
+                                <p class="text-gray-400">Rent Status: <span class="text-emerald-400">₹${room.rent}</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <button onclick="populateFormForEdit(${room.id})" class="text-gray-400 hover:text-blue-400 p-1.5"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="deleteRoom(${room.id})" class="text-gray-500 hover:text-red-400 p-1.5"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('formEditId').value;
+            const title = document.getElementById('formTitle').value;
+            const rent = parseInt(document.getElementById('formRent').value);
+            const maintenance = document.getElementById('formMaintenance').value;
+            const type = document.getElementById('formType').value;
+            const landmark = document.getElementById('formLandmark').value;
+            const roomImg = document.getElementById('formImgRoom').value;
+            const bathImg = document.getElementById('formImgBath').value;
+            const kitchenImg = document.getElementById('formImgKitchen').value;
+            const timeSlot = document.getElementById('formTimeSlot').value;
+            const mapUrl = document.getElementById('formMap').value;
+            const phone = document.getElementById('formPhone').value;
+
+            if(editId) {
+                const idx = roomsData.findIndex(r => r.id == editId);
+                if(idx !== -1) {
+                    roomsData[idx] = { ...roomsData[idx], title, rent, maintenance, type, landmark, images: { room: roomImg, bath: bathImg, kitchen: kitchenImg }, timeSlot, mapUrl, phone };
+                }
+                document.getElementById('formEditId').value = "";
+                document.getElementById('formSubmitBtn').innerText = "Publish Listing live";
+            } else {
+                roomsData.unshift({ id: Date.now(), title, rent, maintenance, type, landmark, images: { room: roomImg, bath: bathImg, kitchen: kitchenImg }, timeSlot, mapUrl, phone });
+            }
+            document.getElementById('listingForm').reset();
+            renderOwnerGrid();
+            alert("🚀 Marketplace synchronization updated successfully!");
+        }
+
+        function populateFormForEdit(id) {
+            const room = roomsData.find(r => r.id === id);
+            if(!room) return;
+            document.getElementById('formEditId').value = room.id;
+            document.getElementById('formTitle').value = room.title;
+            document.getElementById('formRent').value = room.rent;
+            document.getElementById('formLandmark').value = room.landmark;
+            document.getElementById('formImgRoom').value = room.images.room;
+            document.getElementById('formImgBath').value = room.images.bath;
+            document.getElementById('formImgKitchen').value = room.images.kitchen;
+            document.getElementById('formPhone').value = room.phone;
+            document.getElementById('formMap').value = room.mapUrl;
+            document.getElementById('formSubmitBtn').innerText = "Apply Multi-Angle Changes";
+        }
+
+        function deleteRoom(id) { roomsData = roomsData.filter(r => r.id !== id); renderOwnerGrid(); }
+        function filterType(type) { selectedFilter = type; applyCombinedFilters(); }
+        function filterRooms() { applyCombinedFilters(); }
+        function applyCombinedFilters() {
+            let res = roomsData;
+            const q = document.getElementById('searchBox').value.toLowerCase();
+            if(selectedFilter !== 'all') res = res.filter(r => r.type === selectedFilter);
+            if(q.trim() !== '') res = res.filter(r => r.title.toLowerCase().includes(q) || r.landmark.toLowerCase().includes(q));
+            renderTenantGrid(res);
+        }
     </script>
 </body>
 </html>
-<style>
-function showPage(pageId) {
-    // 1. Sabse pehle sabhi sections se 'active' class hatao
-    document.querySelectorAll('.page-section').forEach(div => {
-        div.classList.remove('active');
-    });
-    
-    // 2. Sirf selected wale mein 'active' class dalo
-    document.getElementById(pageId).classList.add('active');
-}
-
-    /* ... baki styles ... */
-    .page-section { display: none; }
-    .page-section.active { display: block !important; }
-</style>
-<main class="max-w-6xl mx-auto px-4">
-    <!-- Sirf ek div mein "active" hona chahiye -->
-    <div id="tenantView" class="page-section active"> ... </div>
-    <div id="pipelineView" class="page-section"> ... </div>
-    <div id="profileView" class="page-section"> ... </div>
-    <div id="ownerView" class="page-section"> ... </div>
-</main>
-
